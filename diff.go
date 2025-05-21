@@ -131,8 +131,8 @@ func parse(diffs Diff) {
 					}
 					bstart := int64(block.StartLine)
 					bend := int64(block.EndLine)
-					// 这里如何做条件判断???
-					if (line.start >= bstart || line.start < bstart) && bend <= line.end+line.start {
+					// 保证coverage.out的起始行-结尾行区间在git diff中获取到新增起始行-结尾行区间内部
+					if line.start <= bstart && (line.end+line.start) >= bend {
 						fname2index[profile.FileName][i] = struct{}{}
 						buffer.WriteString(fmt.Sprintf("%s:%d.%d,%d.%d %d %d\n",
 							profile.FileName,
